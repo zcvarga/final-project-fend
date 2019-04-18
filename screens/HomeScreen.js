@@ -7,62 +7,84 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ImageBackground,
+  Button
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
 import { MonoText } from '../components/StyledText';
+import MyWeb from './SettingsScreen';
+import Map from './SettingsScreen';
+import axios from 'axios';
+import { createStackNavigator, createAppContainer, NavigationEvents } from 'react-navigation';
+
+
+
+
 
 export default class HomeScreen extends React.Component {
+  state = {
+    restaurants: []
+  }
   static navigationOptions = {
     header: null,
   };
 
+  _getRestaurants = () => {
+    let url = 'https://projectdatabase360.herokuapp.com/api/restaurants'
+    axios.get(url).then(({ data: { restaurants } }) => {
+      this.setState({ restaurants })
+    }).catch((err) => { console.log(err) })
+  }
+
+  componentDidMount() {
+    this._getRestaurants()
+  }
+
+
+
+
   render() {
+    const { navigate } = this.props.navigation;
+    console.log(navigate)
+    const imgSrc = 'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fcontemporary-restaurant.jpg?alt=media&token=953bf61b-210f-4573-a08e-5e1a2c82f187'
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
 
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+      // <View style={styles.container}>
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>HI TOMASZ</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
+      <View style={{ flex: 1, flexDirection: 'column' }} >
+        <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
+          <Button title="Search" onPress={() => navigate('MainScreen')} />
+        </ImageBackground>
+        <View style={styles.overlay} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         </View>
-      </View>
+      </ View>
+
+
+
+      // {/* <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+      //   <View><Text>{this.state.restaurants.map(restaurant => restaurant.name)}</Text></View>
+      //   <View style={styles.helpContainer}>
+      //     <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
+      //       <Text style={styles.helpLinkText}>HI TOMASZ</Text>
+      //     </TouchableOpacity>
+      //   </View>
+
+      // </ScrollView> */}
+      // {/* 
+      //     <View style={styles.tabBarInfoContainer}>
+      //       <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
+
+      //       <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+      //         <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
+      //       </View>
+      //     </View>
+      //   </View> */}
     );
   }
+
+
+
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {
@@ -185,4 +207,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  }
 });
+
+

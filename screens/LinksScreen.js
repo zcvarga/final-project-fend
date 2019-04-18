@@ -4,7 +4,6 @@ import { ImagePicker } from 'expo';
 import axios from 'axios';
 import * as firebase from 'firebase';
 
-
 export default class ImagePickerExample extends React.Component {
   state = {
     image1: null,
@@ -20,6 +19,8 @@ export default class ImagePickerExample extends React.Component {
     let { image1, image2, image3, image4, image5, image6 } = this.state;
 
     return (
+
+
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button
           title="Pick image1 from camera roll"
@@ -72,7 +73,9 @@ export default class ImagePickerExample extends React.Component {
   _pickImage = async (value) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3],
+      // aspect: original,
+      aspect: [16, 9],
+      quality: 1.0
     });
 
     console.log(result);
@@ -106,7 +109,22 @@ export default class ImagePickerExample extends React.Component {
   _uploadPhoto = async (uri, imageName) => {
     console.log(uri)
     const response = await fetch(uri);
-    const blob = await response.blob();
+    // const blob = await response.blob();
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+
     const ref = firebase.storage().ref().child('Images/' + imageName);
     const metadata = {
       contentType: 'image/jpeg',
