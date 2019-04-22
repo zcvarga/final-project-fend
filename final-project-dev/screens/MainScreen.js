@@ -45,11 +45,12 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         flex: 1,
+        backgroundColor: '#F5F5F8',
         // flexDirection: 'row',
         // flexWrap: 'wrap',
         // padding: 20,
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: 0,
+        marginRight: 0
 
     }
 });

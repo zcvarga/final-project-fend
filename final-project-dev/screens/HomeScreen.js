@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ImageBackground, StyleSheet, TextInput } from "react-native";
-import { Button, Content, Input, Item, Icon } from "native-base";
+import { Button, Icon } from "native-base";
 import { KeyboardAvoidingView } from 'react-native';
 
 export default class HomeScreen extends React.Component {
