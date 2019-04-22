@@ -31,7 +31,7 @@ export default class HomeScreen extends React.Component {
                                 <Button
                                     style={styles.button}
                                     block light title="Go to Main"
-                                    onPress={() => this.props.navigation.navigate('Main')}>
+                                    onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
                                     <Text style={styles.text}>SEARCH</Text>
                                 </Button>
                             </KeyboardAvoidingView>

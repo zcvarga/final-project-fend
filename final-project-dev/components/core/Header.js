@@ -5,20 +5,22 @@ export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'Manchester, UK'
+            text: null,
         }
     }
     render() {
         return (
-            <React.Fragment>
-                <View style={styles.header}>
-                    <View style={styles.search}>
-                        <TextInput style={styles.searchInput}
-                            onChangeText={(text) => this.setState({ text })}
-                            value={this.state.text} />
+            <View>
+                {this.props.search ? <React.Fragment>
+                    <View style={styles.header}>
+                        <View style={styles.search}>
+                            <TextInput style={styles.searchInput}
+
+                                onChangeText={(text) => this.setState({ text })}
+                                value={!this.state.text ? this.props.search : this.state.text} />
+                        </View>
                     </View>
-                </View>
-            </React.Fragment>
+                </React.Fragment> : null}</View>
         )
     }
 }

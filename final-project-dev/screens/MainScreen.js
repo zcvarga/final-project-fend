@@ -20,9 +20,11 @@ export default class MainScreen extends React.Component {
         this._getRestaurants();
     }
     render() {
+        const { navigation } = this.props;
+        const search = navigation.getParam('search', 'NO-NAME');
         return (
             <Container style={styles.container}>
-                <Header />
+                <Header search={search} />
                 <Tabs renderTabBar={() => <ScrollableTab />}>
                     <Tab heading="Nearby">
                         <ScrollView style={styles.cardContainer}>
@@ -32,6 +34,11 @@ export default class MainScreen extends React.Component {
                     <Tab heading="Popular">
                     </Tab>
                     <Tab heading="Top rated">
+                        <ScrollView style={styles.cardContainer}>
+                            {this.state.restaurants.sort(function (a, b) {
+                                return b.rating - a.rating;
+                            }).map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
+                        </ScrollView>
                     </Tab>
                 </Tabs>
             </Container>
