@@ -43,15 +43,15 @@ export default class SingleView extends Component {
                             <Text style={styles.description}>Description</Text>
                             <View style={styles.line}></View>
                         </CardItem>
-                        <CardItem>
+                        <CardItem button onPress={() => navigation.navigate('Date')}>
                             <Body>
                                 <Text style={styles.overview}>{venue.description}</Text>
                             </Body>
                         </CardItem>
                     </Card>
                 </Content>
-                <View style={styles.footer}>
-                    <View style={styles.stars}>
+                <View style={styles.footer} >
+                    <View style={styles.stars} >
                         {Array.apply(null, { length: venue.rating }).map((e, i) => (
                             <Icon active name='star' style={styles.iconStar} key={i}></Icon>
                         ))}
