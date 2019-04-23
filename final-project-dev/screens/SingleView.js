@@ -4,6 +4,10 @@ import { Container, Header, Content, Card, CardItem, Body, Icon, Button, Left, R
 import axios from 'axios';
 
 export default class SingleView extends Component {
+
+    state = {
+        table_id: 0
+    }
     _patchId = () => {
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
@@ -12,9 +16,29 @@ export default class SingleView extends Component {
             navigation.navigate('VR')
         })
     }
+    _tableWatcher = () => {
+        let url = 'https://projectdatabase360.herokuapp.com/api/communication'
+        axios.get(url).then((res) => {
+            this.setState({ table_id: res.data.id.patched_table_id })
+            // console.log(res.data.id.patched_table_id)
+        })
+    }
+
+    componentDidMount() {
+        this._tableWatcher()
+    }
+    componentDidUpdate(_, prevState) {
+        const { navigation } = this.props;
+        const venue = navigation.getParam('venue', 'NO-NAME');
+        if (prevState.table_id === 0) this._tableWatcher()
+        else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id })
+
+    }
+
 
 
     render() {
+        console.log(this.state.table_id)
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
         return (
@@ -43,7 +67,7 @@ export default class SingleView extends Component {
                             <Text style={styles.description}>Description</Text>
                             <View style={styles.line}></View>
                         </CardItem>
-                        <CardItem button onPress={() => navigation.navigate('Date')}>
+                        <CardItem >
                             <Body>
                                 <Text style={styles.overview}>{venue.description}</Text>
                             </Body>

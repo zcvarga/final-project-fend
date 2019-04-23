@@ -22,14 +22,15 @@ export default class MainScreen extends React.Component {
     // }
     render() {
         const { navigation } = this.props;
-        const search = navigation.getParam('search', 'NO-NAME');
+        const table_id = navigation.getParam('table_id', '');
+        const restaurant_id = navigation.getParam('restaurant_id', '');
         return (
             <Container style={styles.container}>
-                <Header search={search} />
+                {/* <Header search={search} /> */}
                 <Tabs renderTabBar={() => <ScrollableTab />}>
                     <Tab heading="Nearby">
                         <ScrollView style={styles.cardContainer}>
-                            <BookingPicker />
+                            <BookingPicker table_id={table_id} restaurant_id={restaurant_id} />
                         </ScrollView>
                     </Tab>
                     <Tab heading="Popular">
