@@ -7,7 +7,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import WelcomeScreen from './screens/WelcomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import LogInScreen from './screens/LogInScreen';
-import { DatePicker } from 'native-base';
+import BookingScreen from './screens/BookingScreen'
 
 
 const MainNavigator = createStackNavigator({
@@ -18,7 +18,7 @@ const MainNavigator = createStackNavigator({
   Main: { screen: MainScreen },
   Single: { screen: SingleView },
   VR: { screen: VRView },
-  Date: { screen: DatePicker }
+  Date: { screen: BookingScreen }
 },
   {
     headerMode: 'none',
