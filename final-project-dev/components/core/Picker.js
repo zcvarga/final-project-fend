@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { CalendarList } from 'react-native-calendars';
-import { View, ScrollView, Text, StyleSheet, Button } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Card, CardItem, Content, Body, Icon, } from 'native-base';
 import axios from 'axios';
 
@@ -63,6 +63,16 @@ export default class BookingPicker extends Component {
             navigation.navigate('Confirmation')
         })
     }
+    _cancelBooking = () => {
+        const { navigation } = this.props;
+        const url = 'https://projectdatabase360.herokuapp.com/api/communication';
+        axios.patch(url, { "patched_table_id": 0 }).then(() => {
+
+            navigation.navigate('Main')
+
+        })
+
+    }
 
 
     componentDidMount() {
@@ -122,12 +132,32 @@ export default class BookingPicker extends Component {
 
                 {this.state.pickedHour ?
                     <View style={styles.buttons}>
-                        <Button onPress={() => navigation.goBack()} title="Cancel" />
-                        <Button style={styles.button} title="Confirm booking" onPress={() => { this._patchConfirm() }} />
+                        <TouchableOpacity onPress={() => { this._cancelBooking() }}>
+                            <View style={styles.cancelSmall}>
+                                <Text style={{ color: 'white' }}>CANCEL</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => { this._patchConfirm() }}>
+                            <View style={styles.confirm}>
+                                <Text style={{ color: 'white' }}>CONFIRM</Text>
+                            </View>
+                        </TouchableOpacity>
+                        {/* <Button onPress={() => { this._cancelBooking() }} title="Cancel" /> */}
+                        {/* <Button style={styles.button} title="Confirm booking" onPress={() => { this._patchConfirm() }} /> */}
                     </View> :
-                    <View style={styles.bottom}>
-                        <Button style={styles.button} title="Cancel" onPress={() => navigation.navigate('VR')} />
-                    </View>}
+
+                    <TouchableOpacity onPress={() => { this._cancelBooking() }}>
+                        <View style={styles.cancel}>
+                            <Text style={{ color: 'white' }}>CANCEL</Text>
+                        </View>
+                    </TouchableOpacity>
+
+
+
+                    // <View style={styles.bottom}>
+                    // <Button style={styles.button} title="Cancel" onPress={() => { this._cancelBooking() }} />
+                    // </View>
+                }
 
             </View>
         );
@@ -210,6 +240,43 @@ const styles = StyleSheet.create({
         marginLeft: '10%',
         marginRight: '10%'
 
+    },
+    cancel: {
+        backgroundColor: '#D9D9D9',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 48,
+        margin: 10,
+        color: '#D9D9D9'
+
+    },
+    cancelSmall: {
+        backgroundColor: '#D9D9D9',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '120%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 48,
+        margin: 10,
+        color: '#D9D9D9'
+    },
+    confirm: {
+        backgroundColor: '#113859',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '120%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 48,
+        margin: 10,
+        color: '#D9D9D9'
     }
 
 })

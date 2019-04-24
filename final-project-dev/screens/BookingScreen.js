@@ -26,6 +26,7 @@ export default class MainScreen extends React.Component {
         console.log(table_id)
         const restaurant_id = navigation.getParam('restaurant_id', '');
         const name = navigation.getParam('name', '')
+
         return (
             <Container style={styles.container}>
                 <HeaderBooking />

@@ -1,7 +1,10 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TextInput } from "react-native";
-import { Button, Icon } from "native-base";
-import { KeyboardAvoidingView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
+import { List, ListItem, Left, Button, Icon, Thumbnail } from "native-base";
+import { Avatar } from 'react-native-elements';
+
+
+
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -19,23 +22,56 @@ export default class HomeScreen extends React.Component {
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                     <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
 
-                        <View style={styles.bottom}>
-                            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-                                <View style={styles.search}>
-                                    <Icon active name='search' style={styles.icon} />
-                                    <TextInput style={styles.searchInput}
-                                        onChangeText={(text) => this.setState({ text })}
-                                        value={this.state.text} >
-                                    </TextInput>
+                        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled behavior={Platform.OS === "ios" ? "padding" : null}>
+                            <View style={styles.overlay}>
+                                {/* <SafeAreaView style={styles.container}>
+                                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                                        <View> */}
+
+                                <View style={styles.avatar}>
+                                    <Avatar
+                                        rounded
+                                        size="large"
+                                        source={{
+                                            uri:
+                                                'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fdownload-person.jpeg?alt=media&token=c28e754c-50fe-4e36-9f31-aaf0fa993e20',
+                                        }}
+                                    />
+                                    <Text style={styles.name}>Hi, Felix</Text>
                                 </View>
-                                <Button
-                                    style={styles.button}
-                                    block light title="Go to Main"
-                                    onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
-                                    <Text style={styles.text}>SEARCH</Text>
-                                </Button>
-                            </KeyboardAvoidingView>
-                        </View>
+                                <View style={styles.welcome}>
+                                    <Text style={styles.text1}>Where would you </Text>
+                                    <Text style={styles.text1}>like to go today?</Text>
+                                </View>
+                                <View style={styles.bottom}>
+
+                                    <View style={styles.search}>
+                                        <Icon active name='search' style={styles.icon} />
+                                        <TextInput style={styles.searchInput}
+                                            onChangeText={(text) => this.setState({ text })}
+                                            value={this.state.text} >
+                                        </TextInput>
+                                    </View>
+
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
+                                        <View style={styles.searchbutton}>
+                                            <Text style={{ color: 'white', fontSize: 20 }}>SEARCH</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    {/* <Button
+                                        style={styles.button}
+                                        block light title="Go to Main"
+                                        onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
+                                        <Text style={styles.text}>SEARCH</Text>
+                                    </Button> */}
+
+                                </View>
+                                {/* </View>
+                                    </TouchableWithoutFeedback>
+                                </SafeAreaView> */}
+                            </View>
+                        </KeyboardAvoidingView>
+
                     </ImageBackground>
                 </View>
             </React.Fragment >
@@ -54,7 +90,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginRight: '5%',
         marginLeft: '5%',
-        height: 48,
+        height: 56,
         margin: 10,
         color: '#D9D9D9'
     },
@@ -69,12 +105,12 @@ const styles = StyleSheet.create({
         marginLeft: '5%',
         backgroundColor: 'white',
         borderRadius: 5,
-        height: 48,
+        height: 56,
     },
     icon: {
         backgroundColor: "white",
         color: '#D9D9D9',
-        margin: 10,
+        margin: 14,
         fontSize: 25
     },
     searchInput: {
@@ -83,5 +119,46 @@ const styles = StyleSheet.create({
         fontSize: 15,
         margin: 10,
     },
+    overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        width: '100%',
+        height: '100%'
+    },
+    welcome: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: 25
+    },
+    text1: {
+        color: 'white',
+        fontSize: 40,
+        fontFamily: 'Helvetica-Light'
+    },
+    avatar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // justifyContent: 'center',
+        marginTop: 200,
+        marginLeft: 20
+    },
+    name: {
+        color: 'white',
+        fontSize: 25,
+        fontFamily: 'Helvetica-Light',
+        marginLeft: '5%'
+    },
+    searchbutton: {
+        backgroundColor: '#D9D9D9',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 56,
+        margin: 10,
+        color: '#D9D9D9'
+    }
+
 
 });

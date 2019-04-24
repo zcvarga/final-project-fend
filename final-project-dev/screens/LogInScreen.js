@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TextInput } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Button, Icon } from "native-base";
 import { KeyboardAvoidingView } from 'react-native';
 
@@ -34,12 +34,17 @@ export default class WelcomeScreen extends React.Component {
                                     onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
                                     <Text style={styles.text}>SIGN UP</Text>
                                 </Button> */}
-                                <Button
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                    <View style={styles.loginbutton}>
+                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Helvetica-Light' }}>LOGIN</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                {/* <Button
                                     style={styles.buttonLogIn}
                                     block light title="Go to Main"
                                     onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
                                     <Text style={styles.text}>LOGIN</Text>
-                                </Button>
+                                </Button> */}
                             </KeyboardAvoidingView>
                         </View>
                     </ImageBackground>
@@ -97,5 +102,17 @@ const styles = StyleSheet.create({
         fontSize: 15,
         margin: 10,
     },
+    loginbutton: {
+        backgroundColor: '#113859',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 56,
+        margin: 5,
+
+    }
 
 });

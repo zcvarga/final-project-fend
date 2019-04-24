@@ -4,6 +4,7 @@ import { Container, Tab, Tabs, ScrollableTab, Left } from 'native-base';
 import axios from 'axios';
 import Header from '../components/core/Header';
 import VenueCard from '../components/core/VenueCard';
+import Map from '../components/core/Map'
 
 export default class MainScreen extends React.Component {
     state = {
@@ -31,14 +32,15 @@ export default class MainScreen extends React.Component {
                             {this.state.restaurants.map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
                         </ScrollView>
                     </Tab>
-                    <Tab heading="Popular">
-                    </Tab>
                     <Tab heading="Top rated">
                         <ScrollView style={styles.cardContainer}>
                             {this.state.restaurants.sort(function (a, b) {
                                 return b.rating - a.rating;
                             }).map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
                         </ScrollView>
+                    </Tab>
+                    <Tab heading="Map View">
+                        <Map navigation={navigation} />
                     </Tab>
                 </Tabs>
             </Container>

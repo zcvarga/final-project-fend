@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Image } from "react-native";
 
 export default class HeaderBooking extends React.Component {
     constructor(props) {
@@ -9,10 +9,12 @@ export default class HeaderBooking extends React.Component {
         }
     }
     render() {
+        let imgSrc = 'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/reserv3d%20(trans_white).png?alt=media&token=c4660bdf-42a4-4b7c-8eed-973f5e8417d0'
         return (
 
 
             <View style={styles.header}>
+                <Image source={{ uri: imgSrc }} style={{ height: 35, width: '40%' }}></Image>
                 {/* <View style={styles.search}>
                             <TextInput style={styles.searchInput}
 
@@ -29,7 +31,13 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 80,
         backgroundColor: '#113859',
-        marginBottom: -15
+        marginBottom: -15,
+        // flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        paddingBottom: 5,
+        paddingRight: 5
     },
     // search: {
     //     width: '90%',

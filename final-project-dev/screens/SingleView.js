@@ -6,7 +6,7 @@ import axios from 'axios';
 export default class SingleView extends Component {
 
     state = {
-        table_id: 0
+        table_id: 0,
     }
     _patchId = () => {
         const { navigation } = this.props;
@@ -17,6 +17,7 @@ export default class SingleView extends Component {
         })
     }
     _tableWatcher = () => {
+
         let url = 'https://projectdatabase360.herokuapp.com/api/communication'
         axios.get(url).then((res) => {
             this.setState({ table_id: res.data.id.patched_table_id })
@@ -24,13 +25,16 @@ export default class SingleView extends Component {
         })
     }
 
+
+
+
     componentDidMount() {
         this._tableWatcher()
     }
     componentDidUpdate(_, prevState) {
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
-        if (prevState.table_id === 0) this._tableWatcher()
+        if (prevState.table_id === this.state.table_id) this._tableWatcher()
         else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id, name: venue.name })
 
     }
@@ -38,9 +42,10 @@ export default class SingleView extends Component {
 
 
     render() {
-        console.log(this.state.table_id)
+        console.log('TABLE', this.state.table_id)
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
+
         return (
             <View style={styles.page}>
 
