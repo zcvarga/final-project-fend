@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform, KeyboardVerticalOffset } from "react-native";
 import { List, ListItem, Left, Button, Icon, Thumbnail } from "native-base";
 import { Avatar } from 'react-native-elements';
 
@@ -22,56 +22,42 @@ export default class HomeScreen extends React.Component {
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
                     <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
 
-                        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled behavior={Platform.OS === "ios" ? "padding" : null}>
+                        <KeyboardAvoidingView style={styles.container} behavior={(Platform.OS === 'ios') ? "padding" : null} enabled keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}>
                             <View style={styles.overlay}>
-                                {/* <SafeAreaView style={styles.container}>
-                                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                                        <View> */}
-
-                                <View style={styles.avatar}>
-                                    <Avatar
-                                        rounded
-                                        size="large"
-                                        source={{
-                                            uri:
-                                                'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fdownload-person.jpeg?alt=media&token=c28e754c-50fe-4e36-9f31-aaf0fa993e20',
-                                        }}
-                                    />
-                                    <Text style={styles.name}>Hi, Felix</Text>
-                                </View>
-                                <View style={styles.welcome}>
-                                    <Text style={styles.text1}>Where would you </Text>
-                                    <Text style={styles.text1}>like to go today?</Text>
-                                </View>
-                                <View style={styles.bottom}>
-
-                                    <View style={styles.search}>
-                                        <Icon active name='search' style={styles.icon} />
-                                        <TextInput style={styles.searchInput}
-                                            onChangeText={(text) => this.setState({ text })}
-                                            value={this.state.text} >
-                                        </TextInput>
-                                    </View>
-
-                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
-                                        <View style={styles.searchbutton}>
-                                            <Text style={{ color: 'white', fontSize: 20 }}>SEARCH</Text>
+                                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                                    <View style={styles.bottom}>
+                                        <View style={styles.avatar}>
+                                            <Avatar
+                                                rounded
+                                                size="large"
+                                                source={{
+                                                    uri:
+                                                        'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fdownload-person.jpeg?alt=media&token=c28e754c-50fe-4e36-9f31-aaf0fa993e20',
+                                                }}
+                                            />
+                                            <Text style={styles.name}>Hi, Felix</Text>
                                         </View>
-                                    </TouchableOpacity>
-                                    {/* <Button
-                                        style={styles.button}
-                                        block light title="Go to Main"
-                                        onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
-                                        <Text style={styles.text}>SEARCH</Text>
-                                    </Button> */}
+                                        <View style={styles.welcome}>
+                                            <Text style={styles.text1}>Where would you </Text>
+                                            <Text style={styles.text1}>like to go today?</Text>
+                                        </View>
+                                        <View style={styles.search}>
+                                            <Icon active name='search' style={styles.icon} />
+                                            <TextInput style={styles.searchInput}
+                                                onChangeText={(text) => this.setState({ text })}
+                                                value={this.state.text} >
+                                            </TextInput>
+                                        </View>
 
-                                </View>
-                                {/* </View>
-                                    </TouchableWithoutFeedback>
-                                </SafeAreaView> */}
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Main', { search: this.state.text })}>
+                                            <View style={styles.searchbutton}>
+                                                <Text style={{ color: 'white', fontSize: 20 }}>SEARCH</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </TouchableWithoutFeedback>
                             </View>
                         </KeyboardAvoidingView>
-
                     </ImageBackground>
                 </View>
             </React.Fragment >
@@ -127,7 +113,7 @@ const styles = StyleSheet.create({
     welcome: {
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 25
+        marginBottom: 150
     },
     text1: {
         color: 'white',
@@ -138,14 +124,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         // justifyContent: 'center',
-        marginTop: 200,
+        marginBottom: 30,
         marginLeft: 20
     },
     name: {
         color: 'white',
         fontSize: 25,
         fontFamily: 'Helvetica-Light',
-        marginLeft: '5%'
+        marginLeft: '5%',
+
     },
     searchbutton: {
         backgroundColor: '#D9D9D9',
