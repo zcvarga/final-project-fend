@@ -31,7 +31,7 @@ export default class SingleView extends Component {
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
         if (prevState.table_id === 0) this._tableWatcher()
-        else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id })
+        else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id, name: venue.name })
 
     }
 

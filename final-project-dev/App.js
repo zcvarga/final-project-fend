@@ -8,6 +8,7 @@ import WelcomeScreen from './screens/WelcomeScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import LogInScreen from './screens/LogInScreen';
 import BookingScreen from './screens/BookingScreen'
+import ConfirmationScreen from './screens/ConfirmationScreen';
 
 
 const MainNavigator = createStackNavigator({
@@ -18,7 +19,8 @@ const MainNavigator = createStackNavigator({
   Main: { screen: MainScreen },
   Single: { screen: SingleView },
   VR: { screen: VRView },
-  Date: { screen: BookingScreen }
+  Date: { screen: BookingScreen },
+  Confirmation: { screen: ConfirmationScreen }
 },
   {
     headerMode: 'none',
