@@ -1,76 +1,40 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
-import * as firebase from 'firebase';
-import ApiKeys from './constants/ApiKeys'
-import { createStackNavigator } from 'react-navigation';
-import HomeScreen from './screens/HomeScreen';
+import HomeScreen from './screens/HomeScreen'// should set the proper path.
 import MainScreen from './screens/MainScreen'
+import SingleView from './screens/SingleView'
+import VRView from './screens/VRView'
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import WelcomeScreen from './screens/WelcomeScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import LogInScreen from './screens/LogInScreen';
+import BookingScreen from './screens/BookingScreen'
+import ConfirmationScreen from './screens/ConfirmationScreen';
+import Reactotron from 'reactotron-react-native'
 
+Reactotron
+  .configure() // controls connection & communication settings
+  .useReactNative() // add all built-in react native plugins
+  .connect() // let's connect!
 
-
-
-
-
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoadingComplete: false,
+const MainNavigator = createStackNavigator({
+  Welcome: { screen: WelcomeScreen },
+  SignUp: { screen: SignUpScreen },
+  Login: { screen: LogInScreen },
+  Home: { screen: HomeScreen },
+  Main: { screen: MainScreen },
+  Single: { screen: SingleView },
+  VR: { screen: VRView },
+  Date: { screen: BookingScreen },
+  Confirmation: { screen: ConfirmationScreen }
+},
+  {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
     }
-    if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FireBaseConfig); }
-  }
+  });
 
-  render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
-      );
-    }
-  }
 
-  // _loadResourcesAsync = async () => {
-  //   return Promise.all([
-  //     Asset.loadAsync([
-  //       require('./assets/images/robot-dev.png'),
-  //       require('./assets/images/robot-prod.png'),
-  //     ]),
-  //     Font.loadAsync({
-  //       // This is the font that we are using for our tab bar
-  //       ...Icon.Ionicons.font,
-  //       // We include SpaceMono because we use it in HomeScreen.js. Feel free
-  //       // to remove this if you are not using it in your app
-  //       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-  //     }),
-  //   ]);
-  // };
+const App = createAppContainer(MainNavigator);
 
-  // _handleLoadingError = error => {
-  //   // In this case, you might want to report the error to your error
-  //   // reporting service, for example Sentry
-  //   console.warn(error);
-  // };
-
-  // _handleFinishLoading = () => {
-  //   this.setState({ isLoadingComplete: true });
-  // };
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+export default App;
