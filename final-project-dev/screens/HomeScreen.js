@@ -10,17 +10,17 @@ export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'Manchester, UK'
+            text: ''
         }
     }
 
     render() {
-        const imgSrc = 'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fcontemporary-restaurant.jpg?alt=media&token=953bf61b-210f-4573-a08e-5e1a2c82f187'
+
         return (
 
             <React.Fragment>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                    <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
+                    <ImageBackground source={require('../assets/contemporary-restaurant.jpg')} style={{ width: '100%', height: '100%' }}>
 
                         <KeyboardAvoidingView style={styles.container} behavior={(Platform.OS === 'ios') ? "padding" : null} enabled keyboardVerticalOffset={Platform.select({ ios: 0, android: 500 })}>
                             <View style={styles.overlay}>
@@ -44,6 +44,7 @@ export default class HomeScreen extends React.Component {
                                         <View style={styles.search}>
                                             <Icon active name='search' style={styles.icon} />
                                             <TextInput style={styles.searchInput}
+                                                placeholder='Search area'
                                                 onChangeText={(text) => this.setState({ text })}
                                                 value={this.state.text} >
                                             </TextInput>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, WebView, Image, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, WebView, Image, ImageBackground, TouchableOpacity } from "react-native";
 import { Container, Header, Content, Card, CardItem, Body, Icon, Button, Left, Right } from "native-base";
 import axios from 'axios';
 
@@ -35,7 +35,7 @@ export default class SingleView extends Component {
         const { navigation } = this.props;
         const venue = navigation.getParam('venue', 'NO-NAME');
         if (prevState.table_id === this.state.table_id) this._tableWatcher()
-        else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id, name: venue.name })
+        else navigation.navigate('Date', { table_id: this.state.table_id, restaurant_id: venue.restaurant_id, name: venue.name, photo: venue.photo_url })
 
     }
 
@@ -60,7 +60,13 @@ export default class SingleView extends Component {
                                 <Text style={styles.name}>{venue.name}</Text>
                             </Left>
                             <Right>
-                                <Icon active name='eye' title="360 view" style={styles.icon} onPress={() => this._patchId(venue.restaurant_id)}></Icon>
+                                <TouchableOpacity onPress={() => this._patchId(venue.restaurant_id)}>
+                                    <View style={styles.loginbutton}>
+                                        <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Helvetica-Light', paddingLeft: '5%', paddingRight: '5%' }}>RESERVE</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                {/* <Icon active name='eye' title="360 view" style={styles.icon} onPress={() => this._patchId(venue.restaurant_id)}></Icon> */}
+
                                 {/* <Button iconLeft style={styles.button} onPress={() => this._patchId(venue.restaurant_id)} title="360 view"> */}
                                 {/* <Icon name='eye' /> */}
                                 {/* <Text style={styles.text}>360 View</Text> */}
@@ -124,7 +130,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     icon: {
-        fontSize: 36,
+        fontSize: 60,
         color: '#D9D9D9'
     },
     container: {
@@ -141,12 +147,14 @@ const styles = StyleSheet.create({
 
     description: {
         fontSize: 14,
-        color: 'black'
+        color: 'black',
+        fontFamily: 'Helvetica-Light'
     },
     overview: {
         fontSize: 14,
         color: '#B9B9B9',
-        textAlign: 'justify'
+        textAlign: 'justify',
+        fontFamily: 'Helvetica-Light'
     },
     back: {
         position: 'absolute',
@@ -176,4 +184,16 @@ const styles = StyleSheet.create({
         marginLeft: 20
 
     },
+    loginbutton: {
+        backgroundColor: '#113859',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '95%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 40,
+        margin: 5,
+
+    }
 });

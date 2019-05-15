@@ -43,6 +43,7 @@ export default class BookingPicker extends Component {
         function change(obj, tableid, hourx) {
             if (obj.id === tableid) {
                 obj.hours[hourx] = !obj.hours[hourx];
+                obj.booked = !obj.booked;
                 return obj;
             }
             else return obj;
@@ -53,14 +54,14 @@ export default class BookingPicker extends Component {
 
     _patchConfirm = () => {
         // console.log('patch function')
-        const { navigation, restaurant_id, table_id } = this.props;
+        const { navigation, restaurant_id, table_id, name, photo } = this.props;
         let url = `https://projectdatabase360.herokuapp.com/api/restaurants/${restaurant_id}`
         let patchData = this._patchData(this.state.date, table_id, this.state.pickedHour, this.state.tableBooking)
         // console.log(patchData)
         // console.log(url)
         axios.patch(url, { 'table_booking': patchData }).then(({ res }) => {
             // console.log(res)
-            navigation.navigate('Confirmation')
+            navigation.navigate('Confirmation', { table: table_id, name: name, time: this.state.pickedHour, date: this.state.date, photo: photo })
         })
     }
     _cancelBooking = () => {
@@ -96,13 +97,14 @@ export default class BookingPicker extends Component {
                 <View style={styles.name}>
 
                     <Text style={styles.details}>{this.props.name} {this.state.date ? `on ${this.state.date}` : ''} {this.state.pickedHour !== null ? ` at ${this.state.pickedHour === 0 ? '12 am' : this.state.pickedHour + ' pm'} ` : ''} </Text>
+
                 </View>
                 <Text style={styles.datetime}>Date & Time </Text>
                 <View>
                     <CalendarList
                         style={{ width: '100%' }}
-                        current={'2019-04-23'}
-                        minDate={'2019-04-23'}
+                        current={'2019-04-25'}
+                        minDate={'2019-04-25'}
                         markedDates={{ [this.state.selected]: { selected: true, disableTouchEvent: true, selectedDotColor: '#D9D9D9' } }}
                         onDayPress={(day) => { this.setState({ date: day.dateString }) }}
                         pastScrollRange={24}
@@ -116,7 +118,7 @@ export default class BookingPicker extends Component {
                 </View>
 
 
-                {this.state.hours ? <ScrollView horizontal={true}>
+                {this.state.hours ? <ScrollView horizontal={true} style={{ marginTop: '2%' }}>
                     {this.state.hours.map((el, index) => {
                         if (el === false) {
                             // console.log(index)

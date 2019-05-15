@@ -1,51 +1,50 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from "react-native";
 import { Button, Icon } from "native-base";
-import { KeyboardAvoidingView } from 'react-native';
+
 
 export default class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'Manchester, UK'
+            text: 'Manchester'
         }
     }
 
     render() {
-        const imgSrc = 'https://firebasestorage.googleapis.com/v0/b/react-native-dev-f4b63.appspot.com/o/Images%20for%20app%2Fcontemporary-restaurant.jpg?alt=media&token=953bf61b-210f-4573-a08e-5e1a2c82f187'
-        return (
 
+        return (
             <React.Fragment>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                    <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
+                    <ImageBackground source={require('../assets/contemporary-restaurant.jpg')} style={{ width: '100%', height: '100%' }} blurRadius={5}>
+                        <View style={styles.overlay}>
+                            <View style={styles.bottom}>
+                                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+                                    {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
 
-                        <View style={styles.bottom}>
-                            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-                                {/* <View style={styles.search}>
-                                    <Icon active name='search' style={styles.icon} />
-                                    <TextInput style={styles.searchInput}
-                                        onChangeText={(text) => this.setState({ text })}
-                                        value={this.state.text} >
-                                    </TextInput>
-                                </View> */}
-                                {/* <Button
-                                    style={styles.buttonSignUp}
-                                    block light title="Go to Main"
-                                    onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
-                                    <Text style={styles.text}>SIGN UP</Text>
-                                </Button> */}
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
-                                    <View style={styles.loginbutton}>
-                                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Helvetica-Light' }}>LOGIN</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                {/* <Button
-                                    style={styles.buttonLogIn}
-                                    block light title="Go to Main"
-                                    onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
-                                    <Text style={styles.text}>LOGIN</Text>
-                                </Button> */}
-                            </KeyboardAvoidingView>
+                                    <TextInput
+                                        style={{ color: '#D9D9D9', fontFamily: 'Helvetica-Light', fontSize: 20 }}
+                                        placeholder="Email"
+                                        placeholderTextColor={'#D9D9D9'}
+                                        style={styles.input}
+                                    />
+                                    <TextInput
+                                        style={{ color: '#D9D9D9', fontFamily: 'Helvetica-Light', fontSize: 20 }}
+                                        placeholder="Password"
+                                        placeholderTextColor={'#D9D9D9'}
+                                        style={styles.input}
+                                        secureTextEntry={true}
+                                    />
+
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                        <View style={styles.loginbutton}>
+                                            <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Helvetica-Light' }}>LOGIN</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <Text style={styles.forgotpassword}>Forgot password?</Text>
+                                    {/* </TouchableWithoutFeedback> */}
+                                </KeyboardAvoidingView>
+                            </View>
                         </View>
                     </ImageBackground>
                 </View>
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 120
+        marginBottom: 180
     },
     buttonSignUp: {
         width: '90%',
@@ -113,6 +112,71 @@ const styles = StyleSheet.create({
         height: 56,
         margin: 5,
 
-    }
+    },
+    overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        width: '100%',
+        height: '100%'
+    },
+    input: {
+        height: 40,
+        borderColor: "#D9D9D9",
+        borderBottomWidth: 2,
+        marginBottom: 36,
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        color: '#D9D9D9',
+        fontFamily: 'Helvetica-Light',
+        fontSize: 20
+    },
+    forgotpassword: {
+        fontFamily: 'Helvetica-Light',
+        fontSize: 12,
+        color: '#D9D9D9',
+        marginTop: 15,
+        width: '100%',
+        textAlign: 'center',
+    },
+    container: {
 
+    },
+    or: {
+        fontFamily: 'Helvetica-Light',
+        fontSize: 15,
+        color: '#D9D9D9',
+        marginTop: 15,
+        width: '100%',
+        textAlign: 'center',
+    },
+    line: {
+        width: '100%',
+        color: '#D9D9D9',
+        height: 1,
+    }
 });
+
+
+
+
+
+{/* <View style={styles.search}>
+                                    <Icon active name='search' style={styles.icon} />
+                                    <TextInput style={styles.searchInput}
+                                        onChangeText={(text) => this.setState({ text })}
+                                        value={this.state.text} >
+                                    </TextInput>
+                                </View> */}
+{/* <Button
+                                    style={styles.buttonSignUp}
+                                    block light title="Go to Main"
+                                    onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                    <Text style={styles.text}>SIGN UP</Text>
+                                </Button> */}
+
+{/* <Button
+                                    style={styles.buttonLogIn}
+                                    block light title="Go to Main"
+                                    onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                    <Text style={styles.text}>LOGIN</Text>
+                                </Button> */}

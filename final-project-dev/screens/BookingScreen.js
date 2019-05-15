@@ -26,6 +26,7 @@ export default class MainScreen extends React.Component {
         console.log(table_id)
         const restaurant_id = navigation.getParam('restaurant_id', '');
         const name = navigation.getParam('name', '')
+        const photo = navigation.getParam('photo', '')
 
         return (
             <Container style={styles.container}>
@@ -33,7 +34,7 @@ export default class MainScreen extends React.Component {
                 {/* <Tabs renderTabBar={() => <ScrollableTab />}>
                     <Tab heading="Nearby"> */}
                 <ScrollView style={styles.cardContainer}>
-                    <BookingPicker table_id={table_id} restaurant_id={restaurant_id} name={name} navigation={navigation} />
+                    <BookingPicker photo={photo} table_id={table_id} restaurant_id={restaurant_id} name={name} navigation={navigation} />
                 </ScrollView>
                 {/* </Tab>
                     <Tab heading="Popular">

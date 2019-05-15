@@ -1,46 +1,68 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from "react-native";
 import { Container, Tab, Tabs, ScrollableTab, Left } from 'native-base';
 import axios from 'axios';
-import Header from '../components/core/Header';
 import VenueCard from '../components/core/VenueCard';
 import Map from '../components/core/Map'
+import Reactotron from 'reactotron-react-native'
 
 export default class MainScreen extends React.Component {
-    state = {
-        restaurants: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            restaurants: [],
+            filteredRestaurants: [],
+            search: ' '
+        }
     }
-    _getRestaurants = () => {
-        let url = 'https://projectdatabase360.herokuapp.com/api/restaurants'
-        axios.get(url).then(({ data: { restaurants } }) => {
-            this.setState({ restaurants })
-        }).catch((err) => { console.log(err) })
-    }
+
 
     componentDidMount() {
         this._getRestaurants();
+        this.setState({
+            search: this.props.navigation.getParam('search', 'NO-NAME')
+        })
     }
+
+    filterRestaurants = (searchline) => {
+        const filteredRestaurants = this.state.restaurants.filter(venue => venue.name.indexOf(searchline) > -1 || venue.address.indexOf(searchline) > -1);
+        this.setState({ filteredRestaurants: filteredRestaurants, search: searchline });
+    }
+
+    _getRestaurants = () => {
+        let url = 'https://projectdatabase360.herokuapp.com/api/restaurants'
+        axios.get(url).then(({ data: { restaurants } }) => {
+            this.setState({ restaurants: restaurants, filteredRestaurants: restaurants }, () => this.filterRestaurants(this.state.search))
+                .then()
+        }).catch((err) => { console.log(err) })
+    }
+
+
     render() {
-        const { navigation } = this.props;
-        const search = navigation.getParam('search', 'NO-NAME');
         return (
             <Container style={styles.container}>
-                <Header search={search} />
+                <View style={styles.header}>
+                    <View style={styles.search}>
+                        <TextInput style={styles.searchInput}
+                            onChangeText={(text) => this.filterRestaurants(text)}
+                            value={this.state.search} />
+                    </View>
+                </View>
                 <Tabs renderTabBar={() => <ScrollableTab />}>
                     <Tab heading="Nearby">
                         <ScrollView style={styles.cardContainer}>
-                            {this.state.restaurants.map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
+                            {this.state.filteredRestaurants.map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
                         </ScrollView>
                     </Tab>
                     <Tab heading="Top rated">
                         <ScrollView style={styles.cardContainer}>
-                            {this.state.restaurants.sort(function (a, b) {
+                            {this.state.filteredRestaurants.sort(function (a, b) {
                                 return b.rating - a.rating;
                             }).map(el => <VenueCard key={el.name} venue={el} navigation={this.props.navigation} />)}
                         </ScrollView>
                     </Tab>
                     <Tab heading="Map View">
-                        <Map navigation={navigation} />
+                        <Map navigation={this.props.navigation} />
                     </Tab>
                 </Tabs>
             </Container>
@@ -61,5 +83,26 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         marginRight: 0
 
-    }
+    },
+    header: {
+        width: '100%',
+        height: 160,
+        backgroundColor: '#113859',
+    },
+    search: {
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        height: 48,
+        position: 'relative',
+        bottom: -60
+    },
+    searchInput: {
+        color: '#9B9B9B',
+        flex: 1,
+        fontSize: 15,
+        margin: 10
+    },
 });

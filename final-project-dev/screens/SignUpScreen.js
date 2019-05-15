@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet, TextInput } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Button, Icon } from "native-base";
 import { KeyboardAvoidingView } from 'react-native';
 
@@ -7,7 +7,7 @@ export default class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            text: 'Manchester, UK'
+            text: 'Manchester'
         }
     }
 
@@ -17,30 +17,40 @@ export default class WelcomeScreen extends React.Component {
 
             <React.Fragment>
                 <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                    <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }}>
-
-                        <View style={styles.bottom}>
-                            <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-                                {/* <View style={styles.search}>
+                    <ImageBackground source={{ uri: imgSrc }} style={{ width: '100%', height: '100%' }} blurRadius={5}>
+                        <View style={styles.overlay}>
+                            <View style={styles.bottom}>
+                                <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+                                    {/* <View style={styles.search}>
                                     <Icon active name='search' style={styles.icon} />
                                     <TextInput style={styles.searchInput}
                                         onChangeText={(text) => this.setState({ text })}
                                         value={this.state.text} >
                                     </TextInput>
                                 </View> */}
-                                {/* <Button
+                                    {/* <Button
                                     style={styles.buttonSignUp}
                                     block light title="Go to Main"
                                     onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
                                     <Text style={styles.text}>SIGN UP</Text>
                                 </Button> */}
-                                <Button
-                                    style={styles.buttonLogIn}
-                                    block light title="Go to Main"
-                                    onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
-                                    <Text style={styles.text}>Create an account</Text>
-                                </Button>
-                            </KeyboardAvoidingView>
+
+                                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                        <View style={styles.signupbutton}>
+                                            <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Helvetica-Light' }}>CREATE AN ACCOUNT</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+
+
+                                    {/* <Button
+                                        style={styles.buttonLogIn}
+                                        block light title="Go to Main"
+                                        onPress={() => this.props.navigation.navigate('Home', { search: this.state.text })}>
+                                        <Text style={styles.text}>Create an account</Text>
+                                    </Button> */}
+                                </KeyboardAvoidingView>
+                            </View>
                         </View>
                     </ImageBackground>
                 </View>
@@ -54,7 +64,7 @@ const styles = StyleSheet.create({
     bottom: {
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 120
+        marginBottom: 180
     },
     buttonSignUp: {
         width: '90%',
@@ -96,6 +106,23 @@ const styles = StyleSheet.create({
         flex: 1,
         fontSize: 15,
         margin: 10,
+    },
+    overlay: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        width: '100%',
+        height: '100%'
+    },
+    signupbutton: {
+        backgroundColor: '#D9D9D9',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        width: '90%',
+        marginRight: '5%',
+        marginLeft: '5%',
+        height: 56,
+        margin: 5,
+
     },
 
 });
